@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmobilização de Cabos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-content">
+        <div class="logo">
+            <span class="logo-icon">📶</span> 
+            <span>RET CABLE</span>
+        </div>
+        <div class="user-info">VIVO</div>
+    </div>
+</header>
+
+<div class="container">
+    
+    <div class="card" id="form-section">
+        <div class="card-header">
+            <h2>Novo Registro</h2>
+            <p>Insira os dados do lote e a metragem do cabo retirado.</p>
+        </div>
+        
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="obra">Número da Obra</label>
+                <input type="text" id="obra" placeholder="Digite o ID da obra">
+            </div>
+            <div class="form-group">
+                <label for="lote">Lote do Cabo</label>
+                <input type="text" id="lote" placeholder="Digite o número do lote">
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="busca-cabo">Buscar Cabo (Filtro)</label>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="busca-cabo" placeholder="Digite o tipo de cabo (Ex: 50X100)">
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="cabo">Tipo / Bitola do Cabo</label>
+                <select id="cabo">
+                    <option value="">Selecione um cabo...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comprimento">Comprimento (Metros)</label>
+                <input type="number" id="comprimento" step="0.01" placeholder="Ex: 150">
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn-primary" onclick="adicionarRegistro()">➕ Adicionar à Obra</button>
+            <button class="btn-secondary" onclick="gerarRelatorio()">📊 Fechar e Gerar Relatório</button>
+        </div>
+    </div>
+
+    <div class="card" id="tabela-section">
+        <div class="card-header">
+            <h2>Itens Registrados</h2>
+        </div>
+        <div class="table-responsive">
+            <table id="tabela-registros">
+                <thead>
+                    <tr>
+                        <th>Obra</th>
+                        <th>Lote</th>
+                        <th>Cabo</th>
+                        <th>Metragem</th>
+                        <th>Peso (kg)</th>
+                        <th>Custo (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card hidden" id="relatorio-section">
+        <div class="card-header">
+            <h2>Relatório Consolidado</h2>
+            <p>Resumo de pesos e custos pronto para faturamento.</p>
+        </div>
+        <div id="relatorio-content"></div>
+        <div class="action-buttons mt-4">
+            <button class="btn-outline" onclick="voltar()">⬅ Voltar para edição</button>
+            <button class="btn-excel" onclick="baixarExcel()">📥 Baixar Planilha (Excel)</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="app/script.js"></script>
+<script>
+    // Sobrescrevendo levemente as funções de exibir tela para lidar com o novo layout
+    const originalGerarRelatorio = gerarRelatorio;
+    gerarRelatorio = function() {
+        if(registros.length > 0) {
+            document.getElementById('tabela-section').classList.add('hidden');
+        }
+        originalGerarRelatorio();
+    }
+    const originalVoltar = voltar;
+    voltar = function() {
+        document.getElementById('tabela-section').classList.remove('hidden');
+        originalVoltar();
+    }
+</script>
+</body>
+</html>
